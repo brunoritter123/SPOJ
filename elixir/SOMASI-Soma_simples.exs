@@ -2,22 +2,30 @@
 #SOMASI - Soma simples
 #https://br.spoj.com/problems/SOMASI/
 
-defmodule Soma do
-    def execute() do
-        soma = IO.gets("")
-                        |> String.trim()
-                        |> String.split(" ", trim: true)
-                        |> Enum.take(2)
-                        |> Enum.map(fn(num) -> String.last(num) end)
-                        |> Enum.map(fn(num) -> String.to_integer(num) end)
-                        |> Enum.sum()
+vezes = IO.gets("") |> String.trim() |> String.to_integer()
 
-        if rem(soma, 2) == 1 do
-            IO.puts("Impar")
+defmodule Soma do
+    def execute(vezes, result) do
+
+        if vezes >= 1 do
+            soma = IO.gets("")
+                            |> String.trim()
+                            |> String.split(" ", trim: true)
+                            |> Enum.take(2)
+                            |> Enum.map(fn(num) -> String.last(num) end)
+                            |> Enum.map(fn(num) -> String.to_integer(num) end)
+                            |> Enum.sum()
+
+            if rem(soma, 2) == 1 do
+                execute(vezes-1, result++ ["Impar"])
+            else
+                execute(vezes-1, result++ ["Par"])
+            end
+
         else
-            IO.puts("Par")
+            Enum.map(result, fn(r) -> IO.puts(r) end)
         end
     end
 end
 
-Soma.execute()
+Soma.execute(vezes, [])
